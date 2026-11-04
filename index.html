@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AstroPvP Rules</title>
+<meta name="description" content="AstroPvP factions server: rules for general play, chat, factions & PvP, economy and punishments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* AstroPvP: night sky + the scoreboard's gold "Astro" and white "PvP"; single dark theme by choice */
+  --sky: #0b0f1f;
+  --panel: #141a33;
+  --line: #2a3360;
+  --gold: #ffaa00;
+  --text: #e8ebf7;
+  --muted: #9aa3c7;
+  --red: #ff5555;
+  --display: "Press Start 2P", ui-monospace, monospace;
+  --body: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+  /* layout: one centred 760px column; tab bar of category buttons, one numbered list visible at a time */
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--sky);
+  background-image: radial-gradient(1px 1px at 12% 18%, #ffffff55 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 9%, #ffffff44 50%, transparent 51%),
+    radial-gradient(1px 1px at 41% 63%, #ffffff33 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 47%, #ffffff44 50%, transparent 51%),
+    radial-gradient(1px 1px at 23% 86%, #ffffff33 50%, transparent 51%);
+  color: var(--text);
+  font: 400 17px/1.6 var(--body);
+}
+a { color: var(--gold); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header { padding: 40px 0 8px; display: grid; gap: 14px; }
+.logo { font: 400 clamp(22px, 5vw, 34px)/1.2 var(--display); margin: 0; letter-spacing: 1px; }
+.logo .a { color: var(--gold); }
+.logo .p { color: #fff; }
+.ip { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; color: var(--muted); }
+.ip code { font: 500 16px var(--body); color: var(--text); background: var(--panel); border: 1px solid var(--line); padding: 6px 10px; }
+.btn { font: 500 15px var(--body); color: var(--sky); background: var(--gold); border: 0; padding: 8px 14px; cursor: pointer; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+h2 { font: 400 18px/1.4 var(--display); color: var(--gold); margin: 36px 0 6px; text-wrap: balance; }
+.lead { color: var(--muted); margin: 0 0 18px; max-width: 65ch; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid var(--line); }
+.tab {
+  font: 500 15px var(--body); color: var(--muted); background: transparent;
+  border: 2px solid transparent; border-bottom: 0; padding: 9px 14px; cursor: pointer; margin-bottom: -2px;
+  text-decoration: none;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--gold); background: var(--panel); border-color: var(--line); border-bottom: 2px solid var(--panel); }
+.panel { background: var(--panel); border: 2px solid var(--line); border-top: 0; padding: 22px 24px 18px; }
+.panel[hidden] { display: none; }
+.panel h3 { margin: 0 0 4px; font: 700 20px var(--body); }
+.panel .sub { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+ol.rules { margin: 0; padding: 0; list-style: none; counter-reset: r; display: grid; gap: 12px; }
+ol.rules li { counter-increment: r; display: grid; grid-template-columns: 2.4em 1fr; gap: 6px; max-width: 65ch; }
+ol.rules li::before { content: counter(r) "."; color: var(--gold); font-weight: 700; font-variant-numeric: tabular-nums; }
+ol.rules b { color: #fff; }
+.ladder { display: grid; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.ladder li { display: grid; grid-template-columns: 7.5em 1fr; gap: 10px; padding: 8px 10px; border-left: 4px solid var(--line); background: #0f1430; }
+.ladder li span:first-child { font-weight: 700; }
+.ladder .w { border-color: #ffff55; } .ladder .m { border-color: #ffaa00; } .ladder .t { border-color: #ff7733; }
+.ladder .b { border-color: var(--red); } .ladder .x { border-color: #aa0000; }
+.copylink { margin-top: 16px; font-size: 14px; color: var(--muted); }
+footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 16px; }
+@media (max-width: 480px) {
+  .tab { padding: 8px 10px; font-size: 14px; }
+  .panel { padding: 18px 14px; }
+  .ladder li { grid-template-columns: 1fr; gap: 2px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="logo"><span class="a">Astro</span><span class="p">PvP</span></h1>
+    <div class="ip">
+      <a class="btn" href="https://discord.gg/NtYpkCzpMy">Join our Discord</a>
+    </div>
+  </header>
+
+  <section id="rules" aria-labelledby="rules-title">
+    <h2 id="rules-title">Server Rules</h2>
+    <p class="lead">Playing on AstroPvP means you accept these rules. Staff may punish anything that harms the server or its players, even if it isn't listed. Pick a category below.</p>
+
+    <div class="tabs" role="tablist" aria-label="Rule categories">
+      <a class="tab" role="tab" id="tab-general" href="#rules-general" aria-controls="rules-general">General</a>
+      <a class="tab" role="tab" id="tab-chat" href="#rules-chat" aria-controls="rules-chat">Chat</a>
+      <a class="tab" role="tab" id="tab-factions" href="#rules-factions" aria-controls="rules-factions">Factions &amp; PvP</a>
+      <a class="tab" role="tab" id="tab-economy" href="#rules-economy" aria-controls="rules-economy">Economy &amp; Trading</a>
+      <a class="tab" role="tab" id="tab-punishments" href="#rules-punishments" aria-controls="rules-punishments">Staff &amp; Punishments</a>
+    </div>
+
+    <div class="panel" role="tabpanel" id="rules-general" aria-labelledby="tab-general">
+      <h3>General</h3>
+      <p class="sub">Fair play for everyone, on every server of the network.</p>
+      <ol class="rules">
+        <li><span><b>No cheating.</b> Hacked clients, killaura, reach, fly, x-ray (mods or texture packs), auto-clickers, macros and any client that gives an unfair advantage are banned. Allowed: Cosmic Client, Lunar, Badlion, OptiFine and vanilla 1.8.9.</span></li>
+        <li><span><b>No exploiting bugs.</b> Duplication, glitching through blocks or claims, and abusing broken plugins are forbidden. Report a bug to staff on Discord. Players who report real exploits can be rewarded.</span></li>
+        <li><span><b>Alts.</b> Alt accounts are allowed, but they can't be used to dodge a punishment, farm events, vote twice, boost a faction's power or get around faction limits.</span></li>
+        <li><span><b>No real-money trading.</b> Selling or buying accounts, items, money or factions for real money or for things outside AstroPvP is not allowed. The only real-money purchases are on our official store.</span></li>
+        <li><span><b>No AFK farming machines.</b> Auto-fishing, AFK mob farms with macros and anything that plays the game for you are not allowed.</span></li>
+        <li><span><b>Account safety is yours.</b> You are responsible for everything done on your account. Never share your password or your /pin. Staff will never ask for them.</span></li>
+        <li><span><b>No impersonation.</b> Don't pretend to be staff, a YouTuber or another player, in game or on Discord.</span></li>
+        <li><span><b>Don't evade punishments.</b> Joining on another account while banned or muted makes the punishment longer, and the alt is banned too.</span></li>
+      </ol>
+      <p class="copylink">Direct link: <a href="#rules-general">#rules-general</a></p>
+    </div>
+
+    <div class="panel" role="tabpanel" id="rules-chat" aria-labelledby="tab-chat" hidden>
+      <h3>Chat</h3>
+      <p class="sub">Public chat, private messages, mail, signs, books and item names all count.</p>
+      <ol class="rules">
+        <li><span><b>Respect everyone.</b> No harassment, threats, racism, sexism, homophobia or hate toward any group. Trash talk about the game is fine. Attacking someone as a person is not.</span></li>
+        <li><span><b>No spam.</b> Don't repeat messages, flood chat, type in all caps or send many messages in a row.</span></li>
+        <li><span><b>No advertising.</b> Don't name or link other servers, Discords or stores. Promoting your own YouTube or Twitch is allowed only in the media channels on our Discord.</span></li>
+        <li><span><b>Links.</b> Only links to AstroPvP pages, our Discord and screenshots (imgur, Gyazo, Lightshot) are allowed. Never post download links, IP grabbers or scam links.</span></li>
+        <li><span><b>Language.</b> Keep chat in English so staff can read it. Light swearing is tolerated. Heavy or targeted swearing and slurs are punished.</span></li>
+        <li><span><b>No doxxing or threats.</b> Sharing someone's real name, address, photos or other private info, or threatening to DDoS or hack them, means a permanent ban.</span></li>
+        <li><span><b>No inappropriate content.</b> No sexual content, gore or drug talk in chat, names, skins, banners or builds.</span></li>
+        <li><span><b>Don't fake punishments or announcements.</b> Messages made to look like a ban, a broadcast or a staff message are not allowed.</span></li>
+      </ol>
+      <p class="copylink">Direct link: <a href="#rules-chat">#rules-chat</a></p>
+    </div>
+
+    <div class="panel" role="tabpanel" id="rules-factions" aria-labelledby="tab-factions" hidden>
+      <h3>Factions &amp; PvP</h3>
+      <p class="sub">Raiding and fighting are the point of the server. These rules keep it fair.</p>
+      <ol class="rules">
+        <li><span><b>Raiding is allowed.</b> TNT, creepers and cannons against a raidable faction are part of the game, as is taking whatever you find inside.</span></li>
+        <li><span><b>Griefing claims.</b> Unclaimed land is free for all. Inside someone's claim you may only damage what the game lets you (raids, explosions). Don't use bugs to break, place or open things in a claim.</span></li>
+        <li><span><b>Traps are allowed, with one exception.</b> Combat traps, TP traps and lure traps are fair. Traps that kill or trap players at spawn, /warp locations or outposts' safe platforms are not.</span></li>
+        <li><span><b>Ally and truce limits.</b> Stay inside the faction member, ally and truce limits. Teaming with other factions in fights or raids to get around those limits is not allowed.</span></li>
+        <li><span><b>No combat logging.</b> Logging out, disconnecting or using /logout while tagged kills you and drops your items. Doing it on purpose to avoid a fight can also be punished.</span></li>
+        <li><span><b>No safe-zone camping abuse.</b> Don't hit players from spawn or another safe zone to get free hits. You can't attack back from there.</span></li>
+        <li><span><b>Faction names and banners</b> must follow the chat rules. Offensive ones are disbanded or renamed.</span></li>
+        <li><span><b>Leaving a faction.</b> Taking items with you is part of the game. Using a faction's claims, power or chests through a bug is not.</span></li>
+        <li><span><b>Events and KoTH.</b> No cross-teaming during events, KoTHs, outposts or envoys unless the event allows it.</span></li>
+      </ol>
+      <p class="copylink">Direct link: <a href="#rules-factions">#rules-factions</a></p>
+    </div>
+
+    <div class="panel" role="tabpanel" id="rules-economy" aria-labelledby="tab-economy" hidden>
+      <h3>Economy &amp; Trading</h3>
+      <p class="sub">Use /trade or the auction house. Staff can't return items lost in a deal you made yourself.</p>
+      <ol class="rules">
+        <li><span><b>No scamming.</b> Taking someone's items or money and not giving what you promised is punished, whether in /trade, a drop trade, coinflip or the auction house.</span></li>
+        <li><span><b>No fake trades.</b> Renamed or fake items, swapping items at the last second and lying about an item's enchants or set are scams.</span></li>
+        <li><span><b>Gift cards and Tebex codes.</b> Gift card codes are worth real money. Never share them in public, never trade them for in-game items and never sell them. A code given away or traded is not refunded.</span></li>
+        <li><span><b>Store purchases.</b> Ranks, keys and kits bought on the store can't be traded for real money. Chargebacks and disputes mean a permanent ban on every account.</span></li>
+        <li><span><b>No market manipulation with alts.</b> Moving money or items between your own accounts to farm rewards, leaderboards or /baltop is not allowed.</span></li>
+        <li><span><b>Gambling games</b> (coinflip, bombs, mines) are your own risk. Lost bets are not refunded.</span></li>
+        <li><span><b>Borrowing</b> items or money is at your own risk. Staff don't handle unpaid loans.</span></li>
+      </ol>
+      <p class="copylink">Direct link: <a href="#rules-economy">#rules-economy</a></p>
+    </div>
+
+    <div class="panel" role="tabpanel" id="rules-punishments" aria-labelledby="tab-punishments" hidden>
+      <h3>Staff &amp; Punishments</h3>
+      <p class="sub">Staff decide based on what happened and your history. Repeating a rule break moves you up the ladder.</p>
+      <ol class="rules">
+        <li><span><b>Follow staff instructions.</b> If a staff member freezes you or asks for a screenshare, stay online and do what they ask. Logging out while frozen is a ban.</span></li>
+        <li><span><b>Don't argue in public chat.</b> If you disagree with a punishment, appeal on Discord instead.</span></li>
+        <li><span><b>Report players properly.</b> Use /report in game, or a ticket on Discord with a video or screenshots. False reports are punished.</span></li>
+        <li><span><b>Appeals.</b> Open a ticket in our Discord (<a href="https://discord.gg/NtYpkCzpMy">discord.gg/NtYpkCzpMy</a>). Say your IGN, the punishment, and why it should be removed or shortened. Be honest: lying in an appeal means it is denied.</span></li>
+        <li><span><b>One appeal per punishment</b> every 7 days. Spamming staff about it does not help.</span></li>
+      </ol>
+      <ul class="ladder" aria-label="Punishment ladder">
+        <li class="w"><span>Warn</span><span>A written warning in chat. It stays on your record.</span></li>
+        <li class="m"><span>Mute</span><span>You can't chat, message or mail anyone for a set time. Used for chat rules.</span></li>
+        <li class="t"><span>Tempban</span><span>You can't join the network for hours or days. Used for repeated or serious breaks.</span></li>
+        <li class="b"><span>Ban</span><span>Permanent removal from the network. You can appeal on Discord.</span></li>
+        <li class="x"><span>Blacklist</span><span>Permanent ban on every account and IP, with no appeal. Used for chargebacks, doxxing, DDoS threats and selling cheats.</span></li>
+      </ul>
+      <p class="copylink">Direct link: <a href="#rules-punishments">#rules-punishments</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <span>AstroPvP is not affiliated with Mojang or Microsoft.</span>
+    <a href="https://discord.gg/NtYpkCzpMy">Discord</a>
+  </footer>
+</div>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var ids = tabs.map(function (t) { return t.getAttribute('aria-controls'); });
+  function show(id, scroll) {
+    if (ids.indexOf(id) < 0) id = ids[0];
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('aria-controls') === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (scroll) document.getElementById('rules').scrollIntoView();
+  }
+  function fromHash(scroll) {
+    var h = location.hash.slice(1);
+    if (h === 'rules' || ids.indexOf(h) >= 0) show(h === 'rules' ? ids[0] : h, scroll);
+    else show(ids[0], false);
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function (e) {
+      e.preventDefault();
+      history.replaceState(null, '', '#' + ids[i]);
+      show(ids[i], false);
+    });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = tabs[(i + d + tabs.length) % tabs.length];
+      n.focus(); n.click();
+    });
+  });
+  window.addEventListener('hashchange', function () { fromHash(true); });
+  fromHash(true);
+})();
+</script>
+</body>
+</html>
