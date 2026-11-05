@@ -128,12 +128,6 @@
     }).catch(function () { /* keep the honest fallback text */ });
   })();
 
-  /* ---------- Hero image drop-in ---------- */
-  if (C.heroImage) {
-    var fig = $("#heroArt");
-    fig.innerHTML = '<img src="' + esc(C.heroImage) + '" alt="A player in heroic gold armour with arms crossed, on a floating castle island" width="940" height="996" fetchpriority="high">';
-  }
-
   /* ---------- Sale banner ---------- */
   if (C.sale && C.sale.active) {
     $("#sale").classList.add("on");
@@ -188,7 +182,8 @@
   var CATS = ["home", "ranks", "bundles", "lootboxes", "other", "giftcards"];
   function route(fromClick) {
     var h = location.hash.replace("#", "");
-    var cat = CATS.indexOf(h) >= 0 ? h : "home";
+    if (CATS.indexOf(h) < 0) { if (route.cur) return; h = "home"; }
+    var cat = route.cur = h;
     $$(".panel-view").forEach(function (v) { v.hidden = v.getAttribute("data-view") !== cat; });
     $$("#catnav a").forEach(function (a) { if (a.getAttribute("data-cat") === cat) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
     document.title = (cat === "home" ? "" : cat.charAt(0).toUpperCase() + cat.slice(1) + " · ") + "AstroPvP Store";

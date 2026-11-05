@@ -38,9 +38,6 @@ window.ASTRO_STORE = {
     giftcardBalance: ""   // POST { code } -> { balance, currency }
   },
 
-  /* Hero art: drop a finished render in store/img/ and put its path here, e.g. "img/hero.png".
-     Empty = the built-in pixel concept art is shown. */
-  heroImage: "img/hero.png",
 
   /* Sale banner on the Home tab. active:false shows the neutral welcome banner. */
   sale: { active: false, title: "", text: "" }
