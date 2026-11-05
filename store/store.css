@@ -123,6 +123,7 @@ button { font: inherit; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; }
 .hero-art { margin: 0; position: relative; }
 .hero-art svg, .hero-art img { width: 100%; max-width: 440px; margin-left: auto; animation: float 6s ease-in-out infinite; }
+.hero-art img { height: auto; max-width: 540px; filter: drop-shadow(0 0 36px #ffaa0030); }
 .hero-art figcaption { text-align: right; font-size: 12px; color: var(--muted); opacity: .7; }
 @keyframes float { 50% { transform: translateY(-8px); } }
 

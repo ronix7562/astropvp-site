@@ -131,7 +131,7 @@
   /* ---------- Hero image drop-in ---------- */
   if (C.heroImage) {
     var fig = $("#heroArt");
-    fig.innerHTML = '<img src="' + esc(C.heroImage) + '" alt="AstroPvP hero: a player in heroic gold armour on a floating castle island" width="440" height="440">';
+    fig.innerHTML = '<img src="' + esc(C.heroImage) + '" alt="A player in heroic gold armour with arms crossed, on a floating castle island" width="940" height="996" fetchpriority="high">';
   }
 
   /* ---------- Sale banner ---------- */
