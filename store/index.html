@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AstroPvP Store</title>
+<meta name="description" content="AstroPvP store: ranks, bundles, lootboxes and gift cards for the AstroPvP factions server.">
+<meta name="theme-color" content="#07080c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="store.css?v=4">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- 1. Loading screen (removed on load, hard cap 1.5 s) -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-stack">
+    <i style="--x:0;--y:0;--n:0"></i><i style="--x:1;--y:0;--n:1"></i><i style="--x:2;--y:0;--n:2"></i>
+    <i style="--x:0.5;--y:1;--n:3"></i><i style="--x:1.5;--y:1;--n:4"></i>
+    <i style="--x:1;--y:2;--n:5"></i>
+  </div>
+</div>
+
+<!-- 2. Background: CSS nebula + canvas stars/particles -->
+<div class="space-glow" aria-hidden="true"></div>
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- 3. Top bar -->
+<nav class="topbar" aria-label="Site">
+  <div class="wrap topbar-in">
+    <ul class="topnav">
+      <li><a href="../">Home</a></li>
+      <li><a href="./" aria-current="page" class="active">Store</a></li>
+      <li><a href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Discord</a></li>
+    </ul>
+    <div class="account">
+      <span class="guest" aria-hidden="true"></span>
+      <span>Guest</span>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="#" id="login" class="login">Login</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Header: IP / logo / Discord -->
+<header class="masthead">
+  <div class="wrap masthead-in">
+    <button class="head-card ip-card" id="ipCard" type="button">
+      <span class="head-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v10H4zM9 18h6v2H9zM11 14h2v4h-2z" fill="currentColor"/></svg></span>
+      <span class="head-txt">
+        <b id="ipText">IP coming soon</b>
+        <small id="ipHint">Server address not announced yet</small>
+      </span>
+    </button>
+
+    <a class="logo" href="./" aria-label="AstroPvP store home">
+      <span class="logo-word"><span class="logo-a">𝔸𝕤𝕥𝕣𝕠</span><span class="logo-p">ℙ𝕧ℙ</span></span>
+      <small>Factions Store</small>
+    </a>
+
+    <a class="head-card discord-card" href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">
+      <span class="head-txt right">
+        <b>Discord Community</b>
+        <small id="discordHint">Join our Discord</small>
+      </span>
+      <span class="head-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.3 5.3A16 16 0 0 0 15.4 4l-.5 1a14.7 14.7 0 0 0-5.8 0L8.6 4a16 16 0 0 0-3.9 1.3C2.2 9 1.6 12.6 1.9 16.2a16 16 0 0 0 4.8 2.4l1-1.6c-.6-.2-1.1-.5-1.6-.8l.4-.3a11.4 11.4 0 0 0 11 0l.4.3-1.6.8 1 1.6a16 16 0 0 0 4.8-2.4c.4-4.2-.7-7.8-2.8-10.9ZM8.7 14c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/></svg></span>
+    </a>
+  </div>
+</header>
+
+<!-- 7. Hero -->
+<section class="wrap hero" aria-labelledby="heroTitle">
+  <div class="hero-copy">
+    <p class="eyebrow">Season store</p>
+    <h1 id="heroTitle">Stay on top.<br><span>Never fall.</span></h1>
+    <p class="hero-sub">Join the top factions. Upgrade your rank today.</p>
+    <div class="hero-cta">
+      <a class="btn gold" href="#ranks">View ranks</a>
+      <a class="btn ghost" href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Join Discord</a>
+    </div>
+  </div>
+  <figure class="hero-art" id="heroArt">
+    <!-- Original pixel concept (placeholder). A finished render can replace it: config.js -> heroImage -->
+    <svg viewBox="0 0 320 300" role="img" aria-labelledby="heroArtTitle" shape-rendering="crispEdges">
+      <title id="heroArtTitle">Concept art: a player in heroic gold armour, arms crossed, standing on a floating castle island in space</title>
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffcf4a" stop-opacity=".28"/><stop offset="1" stop-color="#ffcf4a" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="160" cy="140" r="150" fill="url(#glow)"/>
+      <!-- castle silhouette -->
+      <g fill="#1c1a33">
+        <rect x="40" y="120" width="44" height="90"/><rect x="40" y="110" width="8" height="10"/><rect x="58" y="110" width="8" height="10"/><rect x="76" y="110" width="8" height="10"/>
+        <rect x="236" y="104" width="44" height="106"/><rect x="236" y="94" width="8" height="10"/><rect x="254" y="94" width="8" height="10"/><rect x="272" y="94" width="8" height="10"/>
+        <rect x="84" y="150" width="152" height="60"/>
+        <rect x="140" y="70" width="40" height="80"/><rect x="152" y="46" width="16" height="24"/><rect x="158" y="30" width="4" height="16"/>
+      </g>
+      <g fill="#ffcf4a" opacity=".8">
+        <rect x="58" y="140" width="8" height="10"/><rect x="254" y="124" width="8" height="10"/><rect x="156" y="90" width="8" height="12"/>
+        <rect x="100" y="168" width="6" height="8"/><rect x="214" y="168" width="6" height="8"/>
+      </g>
+      <rect x="164" y="30" width="16" height="9" fill="#ffaa00"/>
+      <!-- floating island -->
+      <g>
+        <rect x="24" y="206" width="272" height="10" fill="#4fbf5a"/>
+        <rect x="24" y="216" width="272" height="10" fill="#7a5233"/>
+        <rect x="40" y="226" width="240" height="12" fill="#5d5d6b"/>
+        <rect x="70" y="238" width="180" height="12" fill="#4a4a57"/>
+        <rect x="104" y="250" width="112" height="12" fill="#3a3a46"/>
+        <rect x="136" y="262" width="48" height="12" fill="#2c2c36"/>
+        <rect x="152" y="274" width="16" height="10" fill="#22222b"/>
+        <rect x="88" y="232" width="8" height="6" fill="#55e0ff" opacity=".7"/><rect x="204" y="244" width="8" height="6" fill="#ffcf4a" opacity=".8"/>
+      </g>
+      <!-- player: head 8u, body 8x12u, u = 6 -->
+      <g transform="translate(112 54)">
+        <!-- legs -->
+        <rect x="24" y="96" width="24" height="56" fill="#d99a17"/><rect x="48" y="96" width="24" height="56" fill="#c08612"/>
+        <rect x="24" y="140" width="24" height="12" fill="#8a5d0b"/><rect x="48" y="140" width="24" height="12" fill="#7a520a"/>
+        <rect x="45" y="96" width="6" height="40" fill="#a8740f"/>
+        <!-- torso / chestplate -->
+        <rect x="24" y="48" width="48" height="50" fill="#ffc22e"/>
+        <rect x="24" y="48" width="48" height="6" fill="#ffe08a"/>
+        <rect x="42" y="54" width="12" height="18" fill="#e5a417"/>
+        <rect x="24" y="90" width="48" height="8" fill="#9b6a0c"/>
+        <!-- upper arms -->
+        <rect x="6" y="48" width="18" height="36" fill="#ffb81f"/><rect x="72" y="48" width="18" height="36" fill="#e9a516"/>
+        <rect x="6" y="48" width="18" height="6" fill="#ffe08a"/><rect x="72" y="48" width="18" height="6" fill="#f7cb5a"/>
+        <!-- crossed forearms -->
+        <rect x="12" y="66" width="72" height="14" fill="#f0ae1b"/>
+        <rect x="12" y="78" width="72" height="8" fill="#c58a12"/>
+        <rect x="40" y="62" width="40" height="12" fill="#ffd257"/>
+        <rect x="14" y="68" width="10" height="10" fill="#c99a74"/><rect x="74" y="64" width="10" height="10" fill="#b8876a"/>
+        <!-- head, tilted slightly down -->
+        <g transform="rotate(5 48 24) translate(0 3)">
+          <rect x="24" y="0" width="48" height="48" fill="#c99a74"/>
+          <!-- hair under helmet -->
+          <rect x="24" y="12" width="6" height="12" fill="#3b2614"/><rect x="66" y="12" width="6" height="12" fill="#3b2614"/>
+          <!-- helmet -->
+          <rect x="22" y="-4" width="52" height="16" fill="#ffc22e"/><rect x="22" y="-4" width="52" height="5" fill="#ffe08a"/>
+          <rect x="22" y="12" width="6" height="22" fill="#e5a417"/><rect x="68" y="12" width="6" height="22" fill="#e5a417"/>
+          <rect x="44" y="-4" width="8" height="18" fill="#e5a417"/>
+          <!-- brows + eyes looking down -->
+          <rect x="30" y="20" width="14" height="4" fill="#3b2614"/><rect x="52" y="18" width="14" height="4" fill="#3b2614"/>
+          <rect x="32" y="27" width="10" height="6" fill="#ffffff"/><rect x="54" y="27" width="10" height="6" fill="#ffffff"/>
+          <rect x="36" y="29" width="6" height="4" fill="#2d6bd6"/><rect x="58" y="29" width="6" height="4" fill="#2d6bd6"/>
+          <rect x="44" y="33" width="8" height="5" fill="#b3815c"/>
+          <!-- smirk: one corner up -->
+          <rect x="38" y="42" width="16" height="3" fill="#6b3d2a"/><rect x="54" y="39" width="6" height="3" fill="#6b3d2a"/>
+        </g>
+      </g>
+    </svg>
+    <figcaption>Concept art · final hero render coming</figcaption>
+  </figure>
+</section>
+
+<!-- 10. Community strip -->
+<div class="wrap">
+  <p class="community" id="community"><span class="dot" aria-hidden="true"></span><span id="communityText">Join the AstroPvP community</span></p>
+</div>
+
+<div class="wrap layout">
+  <!-- 4. Sidebar -->
+  <aside class="sidebar" aria-label="Store sidebar">
+    <section class="box">
+      <h2 class="box-h">Navigation</h2>
+      <ul class="catnav" id="catnav">
+        <li><a href="#home" data-cat="home"><span class="ico" aria-hidden="true">⌂</span>Home</a></li>
+        <li><a href="#ranks" data-cat="ranks"><span class="ico" aria-hidden="true">★</span>Ranks</a></li>
+        <li><a href="#bundles" data-cat="bundles"><span class="ico" aria-hidden="true">▣</span>Bundles</a></li>
+        <li><a href="#lootboxes" data-cat="lootboxes"><span class="ico" aria-hidden="true">◆</span>Lootboxes</a></li>
+        <li><a href="#other" data-cat="other"><span class="ico" aria-hidden="true">✦</span>Other</a></li>
+        <li><a href="#giftcards" data-cat="giftcards"><span class="ico" aria-hidden="true">✉</span>Giftcards</a></li>
+      </ul>
+    </section>
+
+    <!-- 9. Top Spenders -->
+    <section class="box gold" aria-labelledby="tsH">
+      <div class="box-row">
+        <h2 class="box-h" id="tsH">Top Spenders</h2>
+        <div class="seg" role="group" aria-label="Top spenders period">
+          <button type="button" data-period="month" aria-pressed="true">Month</button>
+          <button type="button" data-period="all" aria-pressed="false">All time</button>
+        </div>
+      </div>
+      <ol class="spenders" id="spenders"></ol>
+    </section>
+
+    <!-- 11. Giftcard Balance -->
+    <section class="box gold" aria-labelledby="gcH">
+      <h2 class="box-h" id="gcH">Giftcard Balance</h2>
+      <form class="gc-form" id="gcForm">
+        <label class="sr" for="gcCode">Gift card code</label>
+        <input id="gcCode" name="code" autocomplete="off" spellcheck="false" placeholder="Gift card code" disabled>
+        <button class="btn gold sm" type="submit" disabled>Check</button>
+      </form>
+      <p class="note" id="gcNote">Balance checking is coming soon.</p>
+      <p class="note">How to use your gift card: enter the code at checkout.</p>
+    </section>
+
+    <!-- 8. Recent Payments -->
+    <section class="box gold" aria-labelledby="rpH">
+      <h2 class="box-h" id="rpH">Recent Payments</h2>
+      <div class="payments" id="payments"></div>
+    </section>
+  </aside>
+
+  <!-- 5. Main area -->
+  <main id="main" class="content" tabindex="-1">
+
+    <!-- HOME -->
+    <section class="panel-view" id="view-home" data-view="home" aria-labelledby="homeH">
+      <div class="sale" id="sale">
+        <p class="sale-tag">AstroPvP</p>
+        <p class="sale-title" id="saleTitle">Welcome to the new store</p>
+        <p class="sale-text" id="saleText">No sale is running right now. Sales are announced on our Discord.</p>
+      </div>
+
+      <article class="panel">
+        <h2 class="panel-h" id="homeH">Welcome to the AstroPvP Store</h2>
+        <p>Every purchase helps us keep AstroPvP online, pay for hosting, and build new features, events and seasons.</p>
+        <h3>Payment info</h3>
+        <p>Checkout will be handled by <b>Tebex</b>, our payment provider. Tebex processes the payment and keeps the order records; AstroPvP never sees your card details. The store is not open yet: buttons show <i>Coming soon</i> until checkout is ready.</p>
+        <h3>Contact</h3>
+        <p>Questions about an order? Open a ticket in our Discord and include your in-game name and the order or transaction ID from your Tebex receipt.</p>
+      </article>
+
+      <div class="two">
+        <article class="panel">
+          <h2 class="panel-h">Refunds</h2>
+          <ul class="list">
+            <li>All purchases are final, except where the law or Tebex's terms give you a right to a refund.</li>
+            <li>Chargebacks or fraudulent payments may lead to a punishment or a permanent ban.</li>
+            <li>If you are under 18, ask a parent or guardian before you buy.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2 class="panel-h">Info</h2>
+          <ul class="list">
+            <li>Purchases are usually delivered within 30 minutes.</li>
+            <li>You must be online on the factions server to receive your purchase.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="actions">
+        <a class="btn green" href="https://discord.gg/NtYpkCzpMy" data-link="support" target="_blank" rel="noopener">Support</a>
+        <a class="btn blue" href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Discord</a>
+      </div>
+    </section>
+
+    <!-- RANKS -->
+    <section class="panel-view" id="view-ranks" data-view="ranks" aria-labelledby="ranksH" hidden>
+      <h2 class="view-h" id="ranksH">Ranks</h2>
+      <div class="ranks" id="rankGrid"></div>
+    </section>
+
+    <!-- EMPTY CATEGORIES -->
+    <section class="panel-view" id="view-bundles" data-view="bundles" aria-labelledby="bundlesH" hidden>
+      <h2 class="view-h" id="bundlesH">Bundles</h2>
+      <div class="soon"><p class="soon-ico" aria-hidden="true">▣</p><p><b>Bundles are coming soon!</b> Join our Discord to be the first to know.</p>
+        <a class="btn blue" href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Join Discord</a></div>
+    </section>
+    <section class="panel-view" id="view-lootboxes" data-view="lootboxes" aria-labelledby="lootH" hidden>
+      <h2 class="view-h" id="lootH">Lootboxes</h2>
+      <div class="soon"><p class="soon-ico" aria-hidden="true">◆</p><p><b>Lootboxes are coming soon!</b> Join our Discord to be the first to know.</p>
+        <a class="btn blue" href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Join Discord</a></div>
+    </section>
+    <section class="panel-view" id="view-other" data-view="other" aria-labelledby="otherH" hidden>
+      <h2 class="view-h" id="otherH">Other</h2>
+      <div class="soon"><p class="soon-ico" aria-hidden="true">✦</p><p><b>More items are coming soon!</b> Join our Discord to be the first to know.</p>
+        <a class="btn blue" href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Join Discord</a></div>
+    </section>
+
+    <!-- GIFTCARDS -->
+    <section class="panel-view" id="view-giftcards" data-view="giftcards" aria-labelledby="giftH" hidden>
+      <h2 class="view-h" id="giftH">Giftcards</h2>
+      <article class="panel">
+        <h3>How to use your gift card</h3>
+        <p>Enter the code at checkout. The value is taken off your order total.</p>
+        <p class="note">Gift cards will be sold here once the store opens. You can check a code's balance in the <b>Giftcard Balance</b> box when that is switched on.</p>
+      </article>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>Copyright © AstroPvP 2026. Not affiliated with Mojang AB.</p>
+    <p class="fine">Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+    <p class="fine"><a href="../">Rules</a> · <a href="https://discord.gg/NtYpkCzpMy" data-link="discord" target="_blank" rel="noopener">Discord</a></p>
+  </div>
+</footer>
+
+<!-- Rank details dialog -->
+<dialog class="modal" id="rankModal" aria-labelledby="rankModalH">
+  <div class="modal-in">
+    <button class="modal-x" type="button" data-close aria-label="Close">×</button>
+    <h2 id="rankModalH">Rank</h2>
+    <p class="modal-price" id="rankModalPrice"></p>
+    <div id="rankModalBody"></div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js?v=4"></script>
+<script src="ranks.js?v=4"></script>
+<script src="store.js?v=4"></script>
+</body>
+</html>
